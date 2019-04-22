@@ -1,0 +1,30 @@
+version: '3'
+
+volumes:
+  caddy: {}
+
+services:
+  dm:
+    build:
+      context: .
+      dockerfile: ./compose/dm/Dockerfile
+    image: dm_app
+    # volumes: 
+    #   - .:/var/www/dm
+    working_dir: /var/www/dm
+    command: scripts/run
+
+  caddy:
+    build:
+      context: .
+      dockerfile: ./compose/caddy/Dockerfile
+    image: dm_caddy
+    depends_on:
+      - dm
+    volumes:
+      - caddy:/root/.caddy
+    env_file:
+      - ./compose/envs/caddy
+    ports:
+      - "0.0.0.0:80:80"
+      - "0.0.0.0:443:443"

@@ -1,0 +1,10 @@
+https://{$DOMAIN_NAME} {                                                        
+    proxy / dm:8080 {                                                          
+        header_upstream Host {host}                                             
+        header_upstream X-Real-IP {remote}                                      
+    }                                                                           
+                                                                                
+    log stdout                                                                  
+    errors stdout                                                               
+    gzip                                                                        
+}   
